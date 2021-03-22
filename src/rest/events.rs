@@ -240,9 +240,11 @@ pub enum FolderState {
     Idle,
     Scanning,
     ScanWaiting,
-    SyncPreparing,
     SyncWaiting,
+    SyncPreparing,
     Syncing,
+    Cleaning,
+    CleanWaiting,
     Error,
     Unknown,
 }
