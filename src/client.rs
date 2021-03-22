@@ -147,35 +147,35 @@ impl Client {
         EventStream::new(self, EMPTY_EVENT_SUBSCRIPTION.clone())
     }
 
-    pub async fn get_system_connections(&self) -> Fallible<system::connections::Connections> {
+    pub async fn get_system_connections(&self) -> Fallible<system::Connections> {
         self.request(Method::GET, SYSTEM_CONNECTIONS_PATH).await
     }
 
-    pub async fn get_system_debug(&self) -> Fallible<system::debug::DebugInfo> {
+    pub async fn get_system_debug(&self) -> Fallible<system::DebugInfo> {
         self.request(Method::GET, SYSTEM_DEBUG_PATH).await
     }
 
-    pub async fn get_system_discovery(&self) -> Fallible<system::discovery::Discovery> {
+    pub async fn get_system_discovery(&self) -> Fallible<system::Discovery> {
         self.request(Method::GET, SYSTEM_DISCOVERY_PATH).await
     }
 
-    pub async fn get_system_log(&self) -> Fallible<system::log::Log> {
+    pub async fn get_system_log(&self) -> Fallible<system::Log> {
         self.request(Method::GET, SYSTEM_LOG_PATH).await
     }
 
-    pub async fn get_system_error(&self) -> Fallible<system::error::Error> {
+    pub async fn get_system_error(&self) -> Fallible<system::Error> {
         self.request(Method::GET, SYSTEM_ERROR_PATH).await
     }
 
-    pub async fn get_system_ping(&self) -> Fallible<system::ping::Ping> {
+    pub async fn get_system_ping(&self) -> Fallible<system::Ping> {
         self.request(Method::GET, SYSTEM_PING_PATH).await
     }
 
-    pub async fn get_system_upgrade(&self) -> Fallible<system::upgrade::UpgradeInfo> {
+    pub async fn get_system_upgrade(&self) -> Fallible<system::UpgradeInfo> {
         self.request(Method::GET, SYSTEM_UPGRADE_PATH).await
     }
 
-    pub async fn get_system_version(&self) -> Fallible<system::version::Version> {
+    pub async fn get_system_version(&self) -> Fallible<system::Version> {
         self.request(Method::GET, SYSTEM_VERSION_PATH).await
     }
 }

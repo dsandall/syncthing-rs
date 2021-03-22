@@ -6,20 +6,23 @@ use futures_core::stream::Stream;
 use std::pin::Pin;
 use std::task::{Context, Poll};
 
-async fn receive(
+pub struct EventClient {
     client: Client,
-    since: Option<u64>,
-    limit: Option<u64>,
     events: Vec<EventType>,
-) -> (Client, Vec<EventType>, Fallible<Vec<Event>>) {
-    let data = client.get_events(since, limit, &events).await;
-    (client, events, data)
 }
 
-#[allow(clippy::large_enum_variant)]
+impl EventClient {
+    fn receive(self, since: Option<u64>) -> BoxFuture<'static, (Self, Fallible<Vec<Event>>)> {
+        Box::pin(async move {
+            let data = self.client.get_events(since, None, &self.events).await;
+            (self, data)
+        })
+    }
+}
+
 enum State {
-    Buffer(Option<(Client, Vec<EventType>)>, Vec<Event>),
-    Future(BoxFuture<'static, (Client, Vec<EventType>, Fallible<Vec<Event>>)>),
+    Buffer(Option<EventClient>, Vec<Event>),
+    Future(BoxFuture<'static, (EventClient, Fallible<Vec<Event>>)>),
 }
 
 //TODO:self correction mechanism see: https://docs.syncthing.net/rest/events-get.html#events-get
@@ -30,8 +33,9 @@ pub struct EventStream {
 
 impl EventStream {
     pub(crate) fn new(client: Client, events: Vec<EventType>) -> Self {
+        let event_client = EventClient { client, events };
         Self {
-            state: State::Future(Box::pin(receive(client, None, None, events))),
+            state: State::Future(event_client.receive(None)),
             since: None,
         }
     }
@@ -43,13 +47,13 @@ impl Stream for EventStream {
     fn poll_next(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
         match &mut self.state {
             State::Future(fut) => match ready!(fut.as_mut().poll(cx)) {
-                (client, events, Ok(mut data)) => {
+                (event_client, Ok(mut data)) => {
                     data.reverse();
-                    self.state = State::Buffer(Some((client, events)), data);
+                    self.state = State::Buffer(Some(event_client), data);
                     Poll::Pending
                 }
-                (client, events, Err(err)) => {
-                    self.state = State::Future(Box::pin(receive(client, self.since, None, events)));
+                (event_client, Err(err)) => {
+                    self.state = State::Future(event_client.receive(self.since));
                     Poll::Ready(Some(Err(err)))
                 }
             },
@@ -58,8 +62,8 @@ impl Stream for EventStream {
                     self.since = Some(event.id);
                     Poll::Ready(Some(Ok(event)))
                 } else {
-                    let (client, events) = connection_events.take().unwrap();
-                    self.state = State::Future(Box::pin(receive(client, self.since, None, events)));
+                    let event_client = connection_events.take().unwrap();
+                    self.state = State::Future(event_client.receive(self.since));
                     Poll::Pending
                 }
             }
