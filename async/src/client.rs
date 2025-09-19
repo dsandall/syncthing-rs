@@ -1,25 +1,21 @@
-use crate::event_stream::EventStream;
-use crate::rest::events::{Event, EventType};
-use crate::rest::system;
-use crate::routes::*;
-use crate::utils::QueryChars;
 use crate::Fallible;
-use anyhow::bail;
-use bytes::buf::BufExt as _;
-use bytes::Buf;
+use crate::events::EventStream;
+use http::Method;
 use http::header::HeaderValue;
-use http::request::Request;
 use http::uri::{Authority, Parts as UriParts, PathAndQuery, Scheme, Uri};
-use hyper::client::HttpConnector;
-use hyper::{Client as HyperClient, Method};
+use reqwest::Client as HttpClient;
 use serde::de::DeserializeOwned as Deserialize;
+use syncthing_types::events::{Event, EventType};
+use syncthing_types::routes::*;
+use syncthing_types::system;
+use syncthing_types::utils;
 
 static API_HEADER_KEY: &str = "X-API-Key";
 static API_DEFAULT_AUTHORITY: &str = "127.0.0.1:8384";
 static EMPTY_EVENT_SUBSCRIPTION: Vec<EventType> = Vec::new();
 
 pub struct Client {
-    client: HyperClient<HttpConnector>,
+    client: HttpClient,
     authority: Authority,
     api_key: String,
 }
@@ -27,40 +23,17 @@ pub struct Client {
 impl Client {
     pub fn new(api_key: impl Into<String>) -> Self {
         Self {
-            client: HyperClient::new(),
-            api_key: api_key.into(),
+            client: HttpClient::new(),
             authority: Authority::from_static(API_DEFAULT_AUTHORITY),
+            api_key: api_key.into(),
         }
     }
 
-    pub fn new_with_hyper_client(
-        client: HyperClient<HttpConnector>,
-        api_key: impl Into<String>,
-    ) -> Self {
+    pub fn with_authority(api_key: impl Into<String>, authority: Authority) -> Self {
         Self {
-            client,
-            api_key: api_key.into(),
-            authority: Authority::from_static(API_DEFAULT_AUTHORITY),
-        }
-    }
-
-    pub fn new_with_authority(api_key: impl Into<String>, authority: Authority) -> Self {
-        Self {
-            client: HyperClient::new(),
-            api_key: api_key.into(),
+            client: HttpClient::new(),
             authority,
-        }
-    }
-
-    pub fn new_with_hyper_client_and_authority(
-        client: HyperClient<HttpConnector>,
-        api_key: impl Into<String>,
-        authority: Authority,
-    ) -> Self {
-        Self {
-            client,
             api_key: api_key.into(),
-            authority,
         }
     }
 
@@ -74,24 +47,14 @@ impl Client {
         uri_parts.scheme = Some(Scheme::HTTP);
         uri_parts.path_and_query = Some(PathAndQuery::from_maybe_shared(path_and_query)?);
         let uri = Uri::from_parts(uri_parts)?;
-        let mut request = Request::new(Default::default());
-        *request.uri_mut() = uri;
-        *request.method_mut() = method;
-        request
-            .headers_mut()
-            .insert(API_HEADER_KEY, HeaderValue::from_str(&self.api_key)?);
-        let resp = self.client.request(request).await?;
-        let status_code = resp.status().as_u16();
-        let body = hyper::body::aggregate(resp).await?;
-        if status_code < 200 || status_code > 299 {
-            bail!(
-                "got http status code '{}' with following msg:\n {}",
-                status_code,
-                String::from_utf8_lossy(body.bytes())
-            )
-        } else {
-            Ok(serde_json::from_reader(body.reader())?)
-        }
+        let resp = self
+            .client
+            .request(method, uri.to_string())
+            .header(API_HEADER_KEY, HeaderValue::from_str(&self.api_key)?)
+            .send()
+            .await?
+            .error_for_status()?;
+        Ok(resp.json().await?)
     }
 
     pub async fn get_all_events(
@@ -109,33 +72,7 @@ impl Client {
         limit: Option<u64>,
         events: impl AsRef<[EventType]>,
     ) -> Fallible<Vec<Event>> {
-        let mut path_and_query = EVENTS_PATH.to_owned();
-        let events = events.as_ref();
-        let mut query_chars = QueryChars::new();
-        if !events.is_empty() {
-            let events = serde_json::to_string(&events)?
-                .chars()
-                .filter(|e| match e {
-                    '\"' => false,
-                    '[' => false,
-                    ']' => false,
-                    _ => true,
-                })
-                .collect::<String>();
-            path_and_query.push(query_chars.next_char());
-            path_and_query.push_str("events=");
-            path_and_query.push_str(events.as_ref());
-        }
-        if let Some(since) = since {
-            path_and_query.push(query_chars.next_char());
-            path_and_query.push_str("since=");
-            path_and_query.push_str(since.to_string().as_ref());
-        }
-        if let Some(limit) = limit {
-            path_and_query.push(query_chars.next_char());
-            path_and_query.push_str("limit=");
-            path_and_query.push_str(limit.to_string().as_ref());
-        }
+        let path_and_query = utils::construct_event_url(since, limit, events)?;
         self.request(Method::GET, path_and_query).await
     }
 

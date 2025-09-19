@@ -1,10 +1,10 @@
-use crate::rest::events::{Event, EventType};
 use crate::{Client, Fallible};
 use futures_core::future::BoxFuture;
 use futures_core::ready;
 use futures_core::stream::Stream;
 use std::pin::Pin;
 use std::task::{Context, Poll};
+use syncthing_types::events::{Event, EventType};
 
 pub struct EventClient {
     client: Client,
@@ -49,8 +49,14 @@ impl Stream for EventStream {
             State::Future(fut) => match ready!(fut.as_mut().poll(cx)) {
                 (event_client, Ok(mut data)) => {
                     data.reverse();
-                    self.state = State::Buffer(Some(event_client), data);
-                    Poll::Pending
+                    if let Some(event) = data.pop() {
+                        self.state = State::Buffer(Some(event_client), data);
+                        self.since = Some(event.id);
+                        Poll::Ready(Some(Ok(event)))
+                    } else {
+                        self.state = State::Future(event_client.receive(self.since));
+                        Poll::Pending
+                    }
                 }
                 (event_client, Err(err)) => {
                     self.state = State::Future(event_client.receive(self.since));

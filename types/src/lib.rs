@@ -1,5 +1,8 @@
 pub mod events;
+pub mod routes;
 pub mod system;
+#[cfg(feature = "utils")]
+pub mod utils;
 
 use serde::Deserialize;
 use std::collections::HashMap;

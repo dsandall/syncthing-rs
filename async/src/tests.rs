@@ -1,7 +1,7 @@
 use crate::{Client, Fallible};
 use futures_util::stream::StreamExt;
 
-static API_KEY: &str = include_str!("../api.key");
+static API_KEY: &str = include_str!("../../api.key");
 
 #[tokio::test]
 async fn get_system_connections() -> Fallible<()> {

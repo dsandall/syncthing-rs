@@ -1,4 +1,4 @@
-use crate::rest::DeviceID;
+use crate::DeviceID;
 use serde::Deserialize;
 use std::collections::HashMap;
 

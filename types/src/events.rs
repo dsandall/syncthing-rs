@@ -1,5 +1,5 @@
-use crate::rest::DeviceID;
-use crate::rest::{FileName, Folder, FolderName};
+use crate::DeviceID;
+use crate::{FileName, Folder, FolderName};
 use serde::{Deserialize, Serialize};
 use serde_json::value::RawValue;
 use std::collections::HashMap;
@@ -54,6 +54,12 @@ pub struct DeviceRejectedEvent {
 
 #[derive(Debug, Deserialize)]
 pub struct DeviceResumedEvent {
+    #[serde(rename = "device")]
+    pub device_id: DeviceID,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct ClusterConfigReceivedEvent {
     #[serde(rename = "device")]
     pub device_id: DeviceID,
 }
@@ -177,7 +183,7 @@ pub struct LocalChangeDetectedEvent {
     #[serde(rename = "folderID")]
     pub folder_id: String,
     pub label: String,
-    path: String,
+    pub path: String,
     #[serde(rename = "type")]
     pub item_type: String, //FIXME: use enum
 }
@@ -268,6 +274,7 @@ pub enum EventData {
     DevicePaused(DevicePausedEvent),
     DeviceRejected(DeviceRejectedEvent),
     DeviceResumed(DeviceResumedEvent),
+    ClusterConfigReceived(ClusterConfigReceivedEvent),
     DownloadProgress(HashMap<FolderName, Folder>),
     FolderCompletion(FolderCompletionEvent),
     FolderErrors(FolderErrorsEvent),
@@ -300,6 +307,7 @@ pub(super) struct RawEvent {
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Deserialize, Serialize)]
+#[non_exhaustive]
 pub enum EventType {
     ConfigSaved,
     DeviceConnected,
@@ -308,6 +316,7 @@ pub enum EventType {
     DevicePaused,
     DeviceRejected,
     DeviceResumed,
+    ClusterConfigReceived,
     DownloadProgress,
     FolderCompletion,
     FolderErrors,
@@ -386,6 +395,9 @@ impl core::convert::TryFrom<RawEvent> for Event {
                 EventType::Starting => Starting(serde_json::from_str(data)?),
                 EventType::StartupComplete => StartupComplete,
                 EventType::StateChanged => StateChanged(serde_json::from_str(data)?),
+                EventType::ClusterConfigReceived => {
+                    ClusterConfigReceived(serde_json::from_str(data)?)
+                }
             },
         })
     }

@@ -1,4 +1,4 @@
-use crate::rest::system::Entry;
+use crate::system::Entry;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]

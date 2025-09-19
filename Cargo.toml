@@ -1,33 +1,9 @@
-[package]
-name = "syncthing"
-version = "0.4.2"
-authors = ["Jayce Fayne <jayce.fayne@mailbox.org>"]
-edition = "2018"
-description = "A Rust library for controlling syncthing file synchronization through its REST interface"
-license = "MIT"
-repository = "https://github.com/jaycefayne/syncthing-rs"
-categories = ["asynchronous", "concurrency", "network-programming"]
-keywords = ["syncthing", "rest", "http", "async"]
-readme = "README.md"
-
-[dependencies]
-serde = { version = "1.0", features = ["derive"] }
-serde_json = { version = "1.0", features = ["raw_value"] }
-futures-core = "0.3"
-http = "0.2"
-hyper = "0.13"
-bytes = "0.5"
-tokio = "0.2"
-anyhow = "1.0"
-
-[dev-dependencies]
-futures-util = "0.3"
-tokio = { version = "0.2", features = ["macros"] }
-
-[[example]]
-name = "event_printer"
-path = "examples/event_printer.rs"
-
-[[example]]
-name = "system_info"
-path = "examples/system_info.rs"
+[workspace]
+resolver = "3"
+members = [
+    "types",
+    "async",
+    "blocking",
+    "examples/event_printer",
+    "examples/system_info",
+]

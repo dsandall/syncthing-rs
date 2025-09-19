@@ -1,4 +1,4 @@
-use crate::rest::system::Entry;
+use crate::system::Entry;
 use crate::utils;
 use serde::Deserialize;
 

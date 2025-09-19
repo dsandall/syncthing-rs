@@ -1,0 +1,22 @@
+[package]
+name = "syncthing"
+version = "0.4.2"
+authors = ["Jayce Fayne <jayce.fayne@mailbox.org>"]
+edition = "2024"
+description = "A Rust library for controlling syncthing file synchronization through its REST interface"
+license = "MIT"
+repository = "https://github.com/jaycefayne/syncthing-rs"
+categories = ["network-programming"]
+keywords = ["syncthing", "rest", "http"]
+readme = "../README.md"
+
+[dependencies]
+syncthing-types = { version = "0.1.0", path = "../types" }
+serde = "1"
+serde_json = "1"
+anyhow = "1"
+http = "1"
+
+[dependencies.ureq]
+version = "3"
+default-features = false
