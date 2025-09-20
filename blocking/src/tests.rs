@@ -3,59 +3,59 @@ use crate::{Client, Fallible};
 static API_KEY: &str = include_str!("../../api.key");
 
 #[test]
-fn get_system_browse() -> Fallible<()> {
+fn browse() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_browse(None)?);
+    dbg!(client.browse(None)?);
     Ok(())
 }
 
 #[test]
-fn get_system_connections() -> Fallible<()> {
+fn get_connections() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_connections()?);
+    dbg!(client.get_connections()?);
     Ok(())
 }
 
 #[test]
-fn get_system_discovery() -> Fallible<()> {
+fn get_discovery_cache() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_discovery()?);
+    dbg!(client.get_discovery_cache()?);
     Ok(())
 }
 
 #[test]
-fn get_system_log() -> Fallible<()> {
+fn get_log() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_log()?);
+    dbg!(client.get_log()?);
     Ok(())
 }
 
 #[test]
-fn get_system_ping() -> Fallible<()> {
+fn ping() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_ping()?);
+    dbg!(client.ping()?);
     Ok(())
 }
 
 #[test]
-fn get_system_error() -> Fallible<()> {
+fn get_errors() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_error()?);
+    dbg!(client.get_errors()?);
     Ok(())
 }
 
 #[test]
 #[ignore]
-fn get_system_upgrade() -> Fallible<()> {
+fn get_upgrade_info() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_upgrade()?);
+    dbg!(client.get_upgrade_info()?);
     Ok(())
 }
 
 #[test]
-fn get_system_version() -> Fallible<()> {
+fn get_version_info() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_version()?);
+    dbg!(client.get_version_info()?);
     Ok(())
 }
 

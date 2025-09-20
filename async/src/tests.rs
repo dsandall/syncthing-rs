@@ -4,59 +4,59 @@ use futures_util::stream::StreamExt;
 static API_KEY: &str = include_str!("../../api.key");
 
 #[tokio::test]
-async fn get_system_browse() -> Fallible<()> {
+async fn browse() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_browse(None).await?);
+    dbg!(client.browse(None).await?);
     Ok(())
 }
 
 #[tokio::test]
-async fn get_system_connections() -> Fallible<()> {
+async fn get_connections() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_connections().await?);
+    dbg!(client.get_connections().await?);
     Ok(())
 }
 
 #[tokio::test]
-async fn get_system_discovery() -> Fallible<()> {
+async fn get_discovery_cache() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_discovery().await?);
+    dbg!(client.get_discovery_cache().await?);
     Ok(())
 }
 
 #[tokio::test]
-async fn get_system_log() -> Fallible<()> {
+async fn get_log() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_log().await?);
+    dbg!(client.get_log().await?);
     Ok(())
 }
 
 #[tokio::test]
-async fn get_system_ping() -> Fallible<()> {
+async fn ping() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_ping().await?);
+    dbg!(client.ping().await?);
     Ok(())
 }
 
 #[tokio::test]
-async fn get_system_error() -> Fallible<()> {
+async fn get_errors() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_error().await?);
+    dbg!(client.get_errors().await?);
     Ok(())
 }
 
 #[tokio::test]
 #[ignore]
-async fn get_system_upgrade() -> Fallible<()> {
+async fn get_upgrade_info() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_upgrade().await?);
+    dbg!(client.get_upgrade_info().await?);
     Ok(())
 }
 
 #[tokio::test]
-async fn get_system_version() -> Fallible<()> {
+async fn get_version_info() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_system_version().await?);
+    dbg!(client.get_version_info().await?);
     Ok(())
 }
 

@@ -84,7 +84,7 @@ impl Client {
         EventStream::new(self, EMPTY_EVENT_SUBSCRIPTION.clone())
     }
 
-    pub async fn get_system_browse(&self, pattern: Option<String>) -> Fallible<Vec<String>> {
+    pub async fn browse(&self, pattern: Option<String>) -> Fallible<Vec<String>> {
         if let Some(pattern) = pattern {
             self.request(
                 Method::GET,
@@ -96,31 +96,31 @@ impl Client {
         }
     }
 
-    pub async fn get_system_connections(&self) -> Fallible<system::Connections> {
+    pub async fn get_connections(&self) -> Fallible<system::Connections> {
         self.request(Method::GET, SYSTEM_CONNECTIONS_PATH).await
     }
 
-    pub async fn get_system_discovery(&self) -> Fallible<system::Discovery> {
+    pub async fn get_discovery_cache(&self) -> Fallible<system::Discovery> {
         self.request(Method::GET, SYSTEM_DISCOVERY_PATH).await
     }
 
-    pub async fn get_system_log(&self) -> Fallible<system::Log> {
+    pub async fn get_log(&self) -> Fallible<system::Log> {
         self.request(Method::GET, SYSTEM_LOG_PATH).await
     }
 
-    pub async fn get_system_error(&self) -> Fallible<system::Error> {
+    pub async fn get_errors(&self) -> Fallible<system::Error> {
         self.request(Method::GET, SYSTEM_ERROR_PATH).await
     }
 
-    pub async fn get_system_ping(&self) -> Fallible<system::Ping> {
+    pub async fn ping(&self) -> Fallible<system::Ping> {
         self.request(Method::GET, SYSTEM_PING_PATH).await
     }
 
-    pub async fn get_system_upgrade(&self) -> Fallible<system::UpgradeInfo> {
+    pub async fn get_upgrade_info(&self) -> Fallible<system::UpgradeInfo> {
         self.request(Method::GET, SYSTEM_UPGRADE_PATH).await
     }
 
-    pub async fn get_system_version(&self) -> Fallible<system::Version> {
+    pub async fn get_version_info(&self) -> Fallible<system::VersionInfo> {
         self.request(Method::GET, SYSTEM_VERSION_PATH).await
     }
 }

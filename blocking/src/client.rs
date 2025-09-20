@@ -89,7 +89,7 @@ impl Client {
         EventStream::new(self, EMPTY_EVENT_SUBSCRIPTION.clone())
     }
 
-    pub fn get_system_browse(&self, pattern: Option<String>) -> Fallible<Vec<String>> {
+    pub fn browse(&self, pattern: Option<String>) -> Fallible<Vec<String>> {
         if let Some(pattern) = pattern {
             self.request(
                 Method::GET,
@@ -100,31 +100,31 @@ impl Client {
         }
     }
 
-    pub fn get_system_connections(&self) -> Fallible<system::Connections> {
+    pub fn get_connections(&self) -> Fallible<system::Connections> {
         self.request(Method::GET, SYSTEM_CONNECTIONS_PATH)
     }
 
-    pub fn get_system_discovery(&self) -> Fallible<system::Discovery> {
+    pub fn get_discovery_cache(&self) -> Fallible<system::Discovery> {
         self.request(Method::GET, SYSTEM_DISCOVERY_PATH)
     }
 
-    pub fn get_system_log(&self) -> Fallible<system::Log> {
+    pub fn get_log(&self) -> Fallible<system::Log> {
         self.request(Method::GET, SYSTEM_LOG_PATH)
     }
 
-    pub fn get_system_error(&self) -> Fallible<system::Error> {
+    pub fn get_errors(&self) -> Fallible<system::Error> {
         self.request(Method::GET, SYSTEM_ERROR_PATH)
     }
 
-    pub fn get_system_ping(&self) -> Fallible<system::Ping> {
+    pub fn ping(&self) -> Fallible<system::Ping> {
         self.request(Method::GET, SYSTEM_PING_PATH)
     }
 
-    pub fn get_system_upgrade(&self) -> Fallible<system::UpgradeInfo> {
+    pub fn get_upgrade_info(&self) -> Fallible<system::UpgradeInfo> {
         self.request(Method::GET, SYSTEM_UPGRADE_PATH)
     }
 
-    pub fn get_system_version(&self) -> Fallible<system::Version> {
+    pub fn get_version_info(&self) -> Fallible<system::VersionInfo> {
         self.request(Method::GET, SYSTEM_VERSION_PATH)
     }
 }
