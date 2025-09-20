@@ -5,42 +5,42 @@ static API_KEY: &str = include_str!("../../api.key");
 #[test]
 fn get_system_connections() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_connections()?;
+    dbg!(client.get_system_connections()?);
     Ok(())
 }
 
 #[test]
 fn get_system_debug() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_debug()?;
+    dbg!(client.get_system_debug()?);
     Ok(())
 }
 
 #[test]
 fn get_system_discovery() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_discovery()?;
+    dbg!(client.get_system_discovery()?);
     Ok(())
 }
 
 #[test]
 fn get_system_log() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_log()?;
+    dbg!(client.get_system_log()?);
     Ok(())
 }
 
 #[test]
 fn get_system_ping() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_ping()?;
+    dbg!(client.get_system_ping()?);
     Ok(())
 }
 
 #[test]
 fn get_system_error() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_error()?;
+    dbg!(client.get_system_error()?);
     Ok(())
 }
 
@@ -48,21 +48,21 @@ fn get_system_error() -> Fallible<()> {
 #[ignore]
 fn get_system_upgrade() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_upgrade()?;
+    dbg!(client.get_system_upgrade()?);
     Ok(())
 }
 
 #[test]
 fn get_system_version() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_version()?;
+    dbg!(client.get_system_version()?);
     Ok(())
 }
 
 #[test]
 fn get_events() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_all_events(None, None)?;
+    dbg!(client.get_all_events(None, None)?);
     Ok(())
 }
 

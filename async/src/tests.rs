@@ -6,42 +6,42 @@ static API_KEY: &str = include_str!("../../api.key");
 #[tokio::test]
 async fn get_system_connections() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_connections().await?;
+    dbg!(client.get_system_connections().await?);
     Ok(())
 }
 
 #[tokio::test]
 async fn get_system_debug() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_debug().await?;
+    dbg!(client.get_system_debug().await?);
     Ok(())
 }
 
 #[tokio::test]
 async fn get_system_discovery() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_discovery().await?;
+    dbg!(client.get_system_discovery().await?);
     Ok(())
 }
 
 #[tokio::test]
 async fn get_system_log() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_log().await?;
+    dbg!(client.get_system_log().await?);
     Ok(())
 }
 
 #[tokio::test]
 async fn get_system_ping() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_ping().await?;
+    dbg!(client.get_system_ping().await?);
     Ok(())
 }
 
 #[tokio::test]
 async fn get_system_error() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_error().await?;
+    dbg!(client.get_system_error().await?);
     Ok(())
 }
 
@@ -49,21 +49,21 @@ async fn get_system_error() -> Fallible<()> {
 #[ignore]
 async fn get_system_upgrade() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_upgrade().await?;
+    dbg!(client.get_system_upgrade().await?);
     Ok(())
 }
 
 #[tokio::test]
 async fn get_system_version() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_system_version().await?;
+    dbg!(client.get_system_version().await?);
     Ok(())
 }
 
 #[tokio::test]
 async fn get_events() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    client.get_all_events(None, None).await?;
+    dbg!(client.get_all_events(None, None).await?);
     Ok(())
 }
 
