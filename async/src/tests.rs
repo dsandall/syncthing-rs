@@ -11,13 +11,6 @@ async fn get_system_connections() -> Fallible<()> {
 }
 
 #[tokio::test]
-async fn get_system_debug() -> Fallible<()> {
-    let client = Client::new(API_KEY);
-    dbg!(client.get_system_debug().await?);
-    Ok(())
-}
-
-#[tokio::test]
 async fn get_system_discovery() -> Fallible<()> {
     let client = Client::new(API_KEY);
     dbg!(client.get_system_discovery().await?);

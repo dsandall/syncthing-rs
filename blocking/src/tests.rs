@@ -10,13 +10,6 @@ fn get_system_connections() -> Fallible<()> {
 }
 
 #[test]
-fn get_system_debug() -> Fallible<()> {
-    let client = Client::new(API_KEY);
-    dbg!(client.get_system_debug()?);
-    Ok(())
-}
-
-#[test]
 fn get_system_discovery() -> Fallible<()> {
     let client = Client::new(API_KEY);
     dbg!(client.get_system_discovery()?);

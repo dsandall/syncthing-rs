@@ -1,5 +1,4 @@
 mod connections;
-mod debug;
 mod discovery;
 mod error;
 mod log;
@@ -8,7 +7,6 @@ mod upgrade;
 mod version;
 
 pub use connections::*;
-pub use debug::*;
 pub use discovery::*;
 pub use error::*;
 pub use log::*;

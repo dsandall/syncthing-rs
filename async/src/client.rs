@@ -88,10 +88,6 @@ impl Client {
         self.request(Method::GET, SYSTEM_CONNECTIONS_PATH).await
     }
 
-    pub async fn get_system_debug(&self) -> Fallible<system::DebugInfo> {
-        self.request(Method::GET, SYSTEM_DEBUG_PATH).await
-    }
-
     pub async fn get_system_discovery(&self) -> Fallible<system::Discovery> {
         self.request(Method::GET, SYSTEM_DISCOVERY_PATH).await
     }
