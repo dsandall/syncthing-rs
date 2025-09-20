@@ -1,27 +1,47 @@
+use crate::system::Statistics;
 use crate::{DeviceID, Timestamp};
 use serde::Deserialize;
 use std::collections::HashMap;
 
 #[derive(Debug, Deserialize)]
-pub struct DeviceStats {
-    pub address: String,
+#[serde(rename_all = "camelCase")]
+pub struct TotalConnectionsStatistic {
     pub at: Timestamp,
-    //TODO: enum
-    #[serde(rename = "clientVersion")]
-    pub client_version: String,
-    pub connected: bool,
-    pub crypto: String,
-    #[serde(rename = "inBytesTotal")]
     pub in_bytes_total: u64,
-    #[serde(rename = "outBytesTotal")]
     pub out_bytes_total: u64,
-    pub paused: bool,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ConnectionInfo {
+    pub address: String,
     #[serde(rename = "type")]
-    pub device_type: String,
+    pub connection_type: String,
+    pub is_local: bool,
+    pub crypto: String,
+
+    #[serde(flatten)]
+    pub statistics: Statistics,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ConnectionStats {
+    pub connected: bool,
+    pub paused: bool,
+    pub client_version: String,
+
+    pub primary: Option<ConnectionInfo>,
+    #[serde(default)]
+    pub secondary: Vec<ConnectionInfo>,
+
+    /// Total for primary + secondaries
+    #[serde(flatten)]
+    pub statistics: Statistics,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct Connections {
-    pub total: DeviceStats,
-    pub connections: HashMap<DeviceID, DeviceStats>,
+    pub total: TotalConnectionsStatistic,
+    pub connections: HashMap<DeviceID, ConnectionStats>,
 }
