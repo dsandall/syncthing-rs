@@ -18,8 +18,10 @@ pub use version::*;
 
 use serde::Deserialize;
 
+use crate::Timestamp;
+
 #[derive(Debug, Deserialize)]
 pub struct Entry {
-    pub when: String,
+    pub when: Timestamp,
     pub message: String,
 }

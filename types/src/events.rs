@@ -1,4 +1,4 @@
-use crate::DeviceID;
+use crate::{DeviceID, Timestamp};
 use crate::{FileName, Folder, FolderName};
 use serde::{Deserialize, Serialize};
 use serde_json::value::RawValue;
@@ -302,7 +302,7 @@ pub(super) struct RawEvent {
     pub global_id: u64,
     #[serde(rename = "type")]
     pub event_type: EventType,
-    pub time: String,
+    pub time: Timestamp,
     pub data: Box<RawValue>,
 }
 
@@ -342,7 +342,7 @@ pub enum EventType {
 pub struct Event {
     pub id: u64,
     pub global_id: u64,
-    pub time: String,
+    pub time: Timestamp,
     pub data: EventData,
 }
 

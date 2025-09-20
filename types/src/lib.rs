@@ -4,6 +4,8 @@ pub mod system;
 #[cfg(feature = "utils")]
 pub mod utils;
 
+use chrono::DateTime;
+use chrono::FixedOffset;
 use serde::Deserialize;
 use std::collections::HashMap;
 
@@ -15,6 +17,7 @@ type FileName = String;
 type DeviceID = String;
 type FolderName = String;
 type Folder = HashMap<FileName, File>;
+type Timestamp = DateTime<FixedOffset>;
 
 //TODO: maybe move to events if not used in system
 #[derive(Debug, Deserialize)]

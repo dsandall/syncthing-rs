@@ -1,11 +1,11 @@
-use crate::DeviceID;
+use crate::{DeviceID, Timestamp};
 use serde::Deserialize;
 use std::collections::HashMap;
 
 #[derive(Debug, Deserialize)]
 pub struct DeviceStats {
     pub address: String,
-    pub at: String,
+    pub at: Timestamp,
     //TODO: enum
     #[serde(rename = "clientVersion")]
     pub client_version: String,
