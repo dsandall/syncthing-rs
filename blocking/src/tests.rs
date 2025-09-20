@@ -3,6 +3,13 @@ use crate::{Client, Fallible};
 static API_KEY: &str = include_str!("../../api.key");
 
 #[test]
+fn get_system_browse() -> Fallible<()> {
+    let client = Client::new(API_KEY);
+    dbg!(client.get_system_browse(None)?);
+    Ok(())
+}
+
+#[test]
 fn get_system_connections() -> Fallible<()> {
     let client = Client::new(API_KEY);
     dbg!(client.get_system_connections()?);

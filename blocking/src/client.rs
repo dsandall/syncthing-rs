@@ -89,6 +89,17 @@ impl Client {
         EventStream::new(self, EMPTY_EVENT_SUBSCRIPTION.clone())
     }
 
+    pub fn get_system_browse(&self, pattern: Option<String>) -> Fallible<Vec<String>> {
+        if let Some(pattern) = pattern {
+            self.request(
+                Method::GET,
+                format!("{}?current={}", SYSTEM_BROWSE_PATH, pattern),
+            )
+        } else {
+            self.request(Method::GET, SYSTEM_BROWSE_PATH)
+        }
+    }
+
     pub fn get_system_connections(&self) -> Fallible<system::Connections> {
         self.request(Method::GET, SYSTEM_CONNECTIONS_PATH)
     }

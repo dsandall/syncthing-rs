@@ -4,6 +4,13 @@ use futures_util::stream::StreamExt;
 static API_KEY: &str = include_str!("../../api.key");
 
 #[tokio::test]
+async fn get_system_browse() -> Fallible<()> {
+    let client = Client::new(API_KEY);
+    dbg!(client.get_system_browse(None).await?);
+    Ok(())
+}
+
+#[tokio::test]
 async fn get_system_connections() -> Fallible<()> {
     let client = Client::new(API_KEY);
     dbg!(client.get_system_connections().await?);

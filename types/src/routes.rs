@@ -1,4 +1,5 @@
 pub static EVENTS_PATH: &str = "/rest/events";
+pub static SYSTEM_BROWSE_PATH: &str = "/rest/system/browse";
 pub static SYSTEM_CONNECTIONS_PATH: &str = "/rest/system/connections";
 pub static SYSTEM_DEBUG_PATH: &str = "/rest/system/debug";
 pub static SYSTEM_DISCOVERY_PATH: &str = "/rest/system/discovery";
