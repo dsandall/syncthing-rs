@@ -1,3 +1,4 @@
+pub mod cluster;
 pub mod events;
 pub mod routes;
 pub mod system;

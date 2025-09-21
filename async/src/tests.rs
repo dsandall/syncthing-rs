@@ -122,3 +122,10 @@ async fn event_stream() -> Fallible<()> {
     }
     Ok(())
 }
+
+#[tokio::test]
+async fn get_cluster_pending_devices() -> Fallible<()> {
+    let client = Client::new(API_KEY);
+    dbg!(client.get_cluster_pending_devices().await?);
+    Ok(())
+}

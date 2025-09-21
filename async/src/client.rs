@@ -7,10 +7,10 @@ use reqwest::Client as HttpClient;
 use serde::de::DeserializeOwned as Deserialize;
 use std::collections::HashMap;
 use syncthing_types::events::{Event, EventType};
-use syncthing_types::utils;
 use syncthing_types::{API_DEFAULT_AUTHORITY, Timestamp};
 use syncthing_types::{API_HEADER_KEY, routes::*};
 use syncthing_types::{EMPTY_EVENT_SUBSCRIPTION, system};
+use syncthing_types::{cluster, utils};
 
 pub struct Client {
     client: HttpClient,
@@ -140,5 +140,9 @@ impl Client {
 
     pub async fn get_version_info(&self) -> Fallible<system::VersionInfo> {
         self.request(Method::GET, SYSTEM_VERSION).await
+    }
+
+    pub async fn get_cluster_pending_devices(&self) -> Fallible<cluster::PendingDevices> {
+        self.request(Method::GET, CLUSTER_PENDING_DEVICES).await
     }
 }

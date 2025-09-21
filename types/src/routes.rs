@@ -11,3 +11,5 @@ pub static SYSTEM_PING: &str = "/rest/system/ping";
 pub static SYSTEM_STATUS: &str = "/rest/system/status";
 pub static SYSTEM_UPGRADE: &str = "/rest/system/upgrade";
 pub static SYSTEM_VERSION: &str = "/rest/system/version";
+
+pub static CLUSTER_PENDING_DEVICES: &str = "/rest/cluster/pending/devices";

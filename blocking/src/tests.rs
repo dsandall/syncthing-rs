@@ -117,3 +117,10 @@ fn event_stream() -> Fallible<()> {
     }
     Ok(())
 }
+
+#[test]
+fn get_cluster_pending_devices() -> Fallible<()> {
+    let client = Client::new(API_KEY);
+    dbg!(client.get_cluster_pending_devices()?);
+    Ok(())
+}
