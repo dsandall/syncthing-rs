@@ -56,6 +56,13 @@ fn get_errors() -> Fallible<()> {
 }
 
 #[test]
+fn get_loglevels_info() -> Fallible<()> {
+    let client = Client::new(API_KEY);
+    dbg!(client.get_loglevels_info()?);
+    Ok(())
+}
+
+#[test]
 #[ignore]
 fn get_upgrade_info() -> Fallible<()> {
     let client = Client::new(API_KEY);

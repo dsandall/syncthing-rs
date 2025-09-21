@@ -121,6 +121,10 @@ impl Client {
         self.request(Method::GET, SYSTEM_ERROR_PATH).await
     }
 
+    pub async fn get_loglevels_info(&self) -> Fallible<system::LogLevelsInfo> {
+        self.request(Method::GET, SYSTEM_LOGLEVELS_PATH).await
+    }
+
     pub async fn ping(&self) -> Fallible<system::Ping> {
         self.request(Method::GET, SYSTEM_PING_PATH).await
     }
