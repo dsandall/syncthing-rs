@@ -1,5 +1,6 @@
 use crate::{Client, Fallible};
 use futures_util::stream::StreamExt;
+use syncthing_types::Timestamp;
 
 static API_KEY: &str = include_str!("../../api.key");
 
@@ -27,7 +28,20 @@ async fn get_discovery_cache() -> Fallible<()> {
 #[tokio::test]
 async fn get_log() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_log().await?);
+    dbg!(client.get_log(None).await?);
+    Ok(())
+}
+
+#[tokio::test]
+async fn get_log_since() -> Fallible<()> {
+    let client = Client::new(API_KEY);
+    dbg!(
+        client
+            .get_log(Some(Timestamp::parse_from_rfc3339(
+                "2014-09-18T12:59:26.549953186+02:00"
+            )?))
+            .await?
+    );
     Ok(())
 }
 

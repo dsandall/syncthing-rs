@@ -5,6 +5,7 @@ use http::header::HeaderValue;
 use http::uri::{Authority, Parts as UriParts, PathAndQuery, Scheme, Uri};
 use reqwest::Client as HttpClient;
 use serde::de::DeserializeOwned as Deserialize;
+use syncthing_types::Timestamp;
 use syncthing_types::events::{Event, EventType};
 use syncthing_types::routes::*;
 use syncthing_types::system;
@@ -104,8 +105,16 @@ impl Client {
         self.request(Method::GET, SYSTEM_DISCOVERY_PATH).await
     }
 
-    pub async fn get_log(&self) -> Fallible<system::Log> {
-        self.request(Method::GET, SYSTEM_LOG_PATH).await
+    pub async fn get_log(&self, since: Option<Timestamp>) -> Fallible<system::Log> {
+        if let Some(since) = since {
+            self.request(
+                Method::GET,
+                format!("{}?since={}", SYSTEM_LOG_PATH, since.to_rfc3339()),
+            )
+            .await
+        } else {
+            self.request(Method::GET, SYSTEM_LOG_PATH).await
+        }
     }
 
     pub async fn get_errors(&self) -> Fallible<system::Error> {

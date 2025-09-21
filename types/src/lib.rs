@@ -17,7 +17,7 @@ type FileName = String;
 type DeviceID = String;
 type FolderName = String;
 type Folder = HashMap<FileName, File>;
-type Timestamp = DateTime<FixedOffset>;
+pub type Timestamp = DateTime<FixedOffset>;
 
 //TODO: maybe move to events if not used in system
 #[derive(Debug, Deserialize)]

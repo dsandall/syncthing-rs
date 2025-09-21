@@ -1,3 +1,5 @@
+use syncthing_types::Timestamp;
+
 use crate::{Client, Fallible};
 
 static API_KEY: &str = include_str!("../../api.key");
@@ -26,7 +28,16 @@ fn get_discovery_cache() -> Fallible<()> {
 #[test]
 fn get_log() -> Fallible<()> {
     let client = Client::new(API_KEY);
-    dbg!(client.get_log()?);
+    dbg!(client.get_log(None)?);
+    Ok(())
+}
+
+#[test]
+fn get_log_since() -> Fallible<()> {
+    let client = Client::new(API_KEY);
+    dbg!(client.get_log(Some(Timestamp::parse_from_rfc3339(
+        "2014-09-18T12:59:26.549953186+02:00"
+    )?))?);
     Ok(())
 }
 
