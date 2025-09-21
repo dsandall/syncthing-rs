@@ -1,6 +1,4 @@
-use syncthing_types::Timestamp;
-
-use crate::{Client, Fallible};
+use crate::{Client, Fallible, Timestamp};
 
 static API_KEY: &str = include_str!("../../api.key");
 

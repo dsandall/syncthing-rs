@@ -1,8 +1,9 @@
 mod client;
-mod events;
+mod event_stream;
 #[cfg(test)]
 mod tests;
 
 pub use client::Client;
 
 pub type Fallible<T> = Result<T, anyhow::Error>;
+pub use syncthing_types::*;

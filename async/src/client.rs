@@ -1,5 +1,5 @@
 use crate::Fallible;
-use crate::events::EventStream;
+use crate::event_stream::EventStream;
 use http::Method;
 use http::header::HeaderValue;
 use http::uri::{Authority, Parts as UriParts, PathAndQuery, Scheme, Uri};

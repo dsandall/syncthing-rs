@@ -1,6 +1,5 @@
-use crate::{Client, Fallible};
+use crate::{Client, Fallible, Timestamp};
 use futures_util::stream::StreamExt;
-use syncthing_types::Timestamp;
 
 static API_KEY: &str = include_str!("../../api.key");
 
