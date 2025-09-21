@@ -130,6 +130,10 @@ impl Client {
         self.request(Method::GET, SYSTEM_PING).await
     }
 
+    pub async fn status(&self) -> Fallible<system::Status> {
+        self.request(Method::GET, SYSTEM_STATUS).await
+    }
+
     pub async fn get_upgrade_info(&self) -> Fallible<system::UpgradeInfo> {
         self.request(Method::GET, SYSTEM_UPGRADE).await
     }

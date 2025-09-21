@@ -88,6 +88,13 @@ async fn get_version_info() -> Fallible<()> {
 }
 
 #[tokio::test]
+async fn status() -> Fallible<()> {
+    let client = Client::new(API_KEY);
+    dbg!(client.status().await?);
+    Ok(())
+}
+
+#[tokio::test]
 async fn get_events() -> Fallible<()> {
     let client = Client::new(API_KEY);
     dbg!(client.get_all_events(None, None).await?);

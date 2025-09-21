@@ -83,6 +83,13 @@ fn get_version_info() -> Fallible<()> {
 }
 
 #[test]
+fn status() -> Fallible<()> {
+    let client = Client::new(API_KEY);
+    dbg!(client.status()?);
+    Ok(())
+}
+
+#[test]
 fn get_events() -> Fallible<()> {
     let client = Client::new(API_KEY);
     dbg!(client.get_all_events(None, None)?);

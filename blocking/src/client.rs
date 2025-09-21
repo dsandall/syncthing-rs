@@ -133,6 +133,10 @@ impl Client {
         self.request(Method::GET, SYSTEM_PING)
     }
 
+    pub fn status(&self) -> Fallible<system::Status> {
+        self.request(Method::GET, SYSTEM_STATUS)
+    }
+
     pub fn get_upgrade_info(&self) -> Fallible<system::UpgradeInfo> {
         self.request(Method::GET, SYSTEM_UPGRADE)
     }

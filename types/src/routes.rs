@@ -8,5 +8,6 @@ pub static SYSTEM_ERROR: &str = "/rest/system/error";
 pub static SYSTEM_LOGLEVELS: &str = "/rest/system/loglevels";
 pub static SYSTEM_PATHS: &str = "/rest/system/paths";
 pub static SYSTEM_PING: &str = "/rest/system/ping";
+pub static SYSTEM_STATUS: &str = "/rest/system/status";
 pub static SYSTEM_UPGRADE: &str = "/rest/system/upgrade";
 pub static SYSTEM_VERSION: &str = "/rest/system/version";

@@ -4,6 +4,7 @@ mod error;
 mod log;
 mod loglevels;
 mod ping;
+mod status;
 mod upgrade;
 mod version;
 
@@ -13,6 +14,7 @@ pub use error::*;
 pub use log::*;
 pub use loglevels::*;
 pub use ping::*;
+pub use status::*;
 pub use upgrade::*;
 pub use version::*;
 
