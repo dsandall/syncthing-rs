@@ -59,6 +59,13 @@ async fn get_errors() -> Fallible<()> {
 }
 
 #[tokio::test]
+async fn clear_errors() -> Fallible<()> {
+    let client = Client::new(API_KEY);
+    dbg!(client.clear_errors().await?);
+    Ok(())
+}
+
+#[tokio::test]
 async fn get_loglevels_info() -> Fallible<()> {
     let client = Client::new(API_KEY);
     dbg!(client.get_loglevels_info().await?);

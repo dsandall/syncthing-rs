@@ -4,6 +4,7 @@ use http::Method;
 use http::header::HeaderValue;
 use http::uri::Authority;
 use reqwest::Client as HttpClient;
+use serde::Serialize;
 use serde::de::DeserializeOwned as Deserialize;
 use std::collections::HashMap;
 use syncthing_types::events::{Event, EventType};
@@ -36,20 +37,35 @@ impl Client {
         }
     }
 
-    pub(crate) async fn request<D: Deserialize, T: AsRef<[u8]> + 'static>(
+    pub(crate) async fn get<D: Deserialize, T: AsRef<[u8]> + 'static>(
         &self,
-        method: Method,
         path_and_query: T,
     ) -> Fallible<D> {
         let url = construct_uri(&self.authority, path_and_query)?.to_string();
         let resp = self
             .client
-            .request(method, url)
+            .request(Method::GET, url)
             .header(API_HEADER_KEY, HeaderValue::from_str(&self.api_key)?)
             .send()
             .await?
             .error_for_status()?;
         Ok(resp.json().await?)
+    }
+
+    pub(crate) async fn post<S: Serialize, T: AsRef<[u8]> + 'static>(
+        &self,
+        path_and_query: T,
+        body: &S,
+    ) -> Fallible<()> {
+        let url = construct_uri(&self.authority, path_and_query)?.to_string();
+        self.client
+            .request(Method::POST, url)
+            .body(serde_json::to_string(body)?)
+            .header(API_HEADER_KEY, HeaderValue::from_str(&self.api_key)?)
+            .send()
+            .await?
+            .error_for_status()?;
+        Ok(())
     }
 
     pub async fn get_all_events(
@@ -67,8 +83,8 @@ impl Client {
         limit: Option<u64>,
         events: impl AsRef<[EventType]>,
     ) -> Fallible<Vec<Event>> {
-        let path_and_query = utils::construct_event_url(since, limit, events)?;
-        self.request(Method::GET, path_and_query).await
+        let path_and_query = utils::construct_event_path_and_query(since, limit, events)?;
+        self.get(path_and_query).await
     }
 
     pub fn subscribe_to(self, events: impl Into<Vec<EventType>>) -> EventStream {
@@ -81,65 +97,63 @@ impl Client {
 
     pub async fn browse(&self, pattern: Option<String>) -> Fallible<Vec<String>> {
         if let Some(pattern) = pattern {
-            self.request(
-                Method::GET,
-                format!("{}?current={}", SYSTEM_BROWSE, pattern),
-            )
-            .await
+            self.get(format!("{}?current={}", SYSTEM_BROWSE, pattern))
+                .await
         } else {
-            self.request(Method::GET, SYSTEM_BROWSE).await
+            self.get(SYSTEM_BROWSE).await
         }
     }
 
     pub async fn get_connections(&self) -> Fallible<system::Connections> {
-        self.request(Method::GET, SYSTEM_CONNECTIONS).await
+        self.get(SYSTEM_CONNECTIONS).await
     }
 
     pub async fn get_discovery_cache(&self) -> Fallible<system::Discovery> {
-        self.request(Method::GET, SYSTEM_DISCOVERY).await
+        self.get(SYSTEM_DISCOVERY).await
     }
 
     pub async fn get_log(&self, since: Option<Timestamp>) -> Fallible<system::Log> {
         if let Some(since) = since {
-            self.request(
-                Method::GET,
-                format!("{}?since={}", SYSTEM_LOG, since.to_rfc3339()),
-            )
-            .await
+            self.get(format!("{}?since={}", SYSTEM_LOG, since.to_rfc3339()))
+                .await
         } else {
-            self.request(Method::GET, SYSTEM_LOG).await
+            self.get(SYSTEM_LOG).await
         }
     }
 
     pub async fn get_errors(&self) -> Fallible<system::Error> {
-        self.request(Method::GET, SYSTEM_ERROR).await
+        self.get(SYSTEM_ERROR).await
+    }
+
+    pub async fn clear_errors(&self) -> Fallible<()> {
+        self.post(SYSTEM_ERROR_CLEAR, &()).await
     }
 
     pub async fn get_loglevels_info(&self) -> Fallible<system::LogLevelsInfo> {
-        self.request(Method::GET, SYSTEM_LOGLEVELS).await
+        self.get(SYSTEM_LOGLEVELS).await
     }
 
     pub async fn get_paths(&self) -> Fallible<HashMap<String, String>> {
-        self.request(Method::GET, SYSTEM_PATHS).await
+        self.get(SYSTEM_PATHS).await
     }
 
     pub async fn ping(&self) -> Fallible<system::Ping> {
-        self.request(Method::GET, SYSTEM_PING).await
+        self.get(SYSTEM_PING).await
     }
 
     pub async fn status(&self) -> Fallible<system::Status> {
-        self.request(Method::GET, SYSTEM_STATUS).await
+        self.get(SYSTEM_STATUS).await
     }
 
     pub async fn get_upgrade_info(&self) -> Fallible<system::UpgradeInfo> {
-        self.request(Method::GET, SYSTEM_UPGRADE).await
+        self.get(SYSTEM_UPGRADE).await
     }
 
     pub async fn get_version_info(&self) -> Fallible<system::VersionInfo> {
-        self.request(Method::GET, SYSTEM_VERSION).await
+        self.get(SYSTEM_VERSION).await
     }
 
     pub async fn get_cluster_pending_devices(&self) -> Fallible<cluster::PendingDevices> {
-        self.request(Method::GET, CLUSTER_PENDING_DEVICES).await
+        self.get(CLUSTER_PENDING_DEVICES).await
     }
 }

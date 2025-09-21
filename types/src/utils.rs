@@ -29,7 +29,7 @@ where
     Ok(opt.unwrap_or_default())
 }
 
-pub fn construct_event_url(
+pub fn construct_event_path_and_query(
     since: Option<u64>,
     limit: Option<u64>,
     events: impl AsRef<[crate::events::EventType]>,
