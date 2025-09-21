@@ -50,16 +50,7 @@ impl Client {
             .headers_mut()
             .insert(API_HEADER_KEY, HeaderValue::from_str(&self.api_key)?);
         let mut resp = self.agent.run(request)?;
-        let status_code = resp.status().as_u16();
-        if status_code < 200 || status_code > 299 {
-            bail!(
-                "got http status code '{}' with following response body:\n {}",
-                status_code,
-                resp.body_mut().read_to_string()?
-            )
-        } else {
-            Ok(serde_json::from_reader(resp.body_mut().as_reader())?)
-        }
+        Ok(serde_json::from_reader(resp.body_mut().as_reader())?)
     }
 
     pub fn get_all_events(&self, since: Option<u64>, limit: Option<u64>) -> Fallible<Vec<Event>> {
