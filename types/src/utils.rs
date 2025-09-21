@@ -58,3 +58,16 @@ pub fn construct_event_url(
     }
     Ok(path_and_query)
 }
+
+use http::uri::{Authority, Parts as UriParts, PathAndQuery, Scheme, Uri};
+
+pub fn construct_uri<T>(authority: &Authority, path_and_query: T) -> Result<Uri, http::Error>
+where
+    T: AsRef<[u8]> + 'static,
+{
+    let mut uri_parts = UriParts::default();
+    uri_parts.authority = Some(authority.clone());
+    uri_parts.scheme = Some(Scheme::HTTP);
+    uri_parts.path_and_query = Some(PathAndQuery::from_maybe_shared(path_and_query)?);
+    Ok(Uri::from_parts(uri_parts)?)
+}

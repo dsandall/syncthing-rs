@@ -2,11 +2,12 @@ use crate::Fallible;
 use crate::event_stream::EventStream;
 use anyhow::bail;
 use http::header::HeaderValue;
-use http::uri::{Authority, Parts as UriParts, PathAndQuery, Scheme, Uri};
+use http::uri::Authority;
 use http::{Method, Request};
 use serde::de::DeserializeOwned as Deserialize;
 use std::collections::HashMap;
 use syncthing_types::events::{Event, EventType};
+use syncthing_types::utils::construct_uri;
 use syncthing_types::{API_DEFAULT_AUTHORITY, Timestamp};
 use syncthing_types::{API_HEADER_KEY, routes::*};
 use syncthing_types::{EMPTY_EVENT_SUBSCRIPTION, system};
@@ -41,11 +42,7 @@ impl Client {
         method: Method,
         path_and_query: T,
     ) -> Fallible<D> {
-        let mut uri_parts = UriParts::default();
-        uri_parts.authority = Some(self.authority.clone());
-        uri_parts.scheme = Some(Scheme::HTTP);
-        uri_parts.path_and_query = Some(PathAndQuery::from_maybe_shared(path_and_query)?);
-        let uri = Uri::from_parts(uri_parts)?;
+        let uri = construct_uri(&self.authority, path_and_query)?;
         let mut request = Request::new(());
         *request.uri_mut() = uri;
         *request.method_mut() = method;
