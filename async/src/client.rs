@@ -85,51 +85,51 @@ impl Client {
         if let Some(pattern) = pattern {
             self.request(
                 Method::GET,
-                format!("{}?current={}", SYSTEM_BROWSE_PATH, pattern),
+                format!("{}?current={}", SYSTEM_BROWSE, pattern),
             )
             .await
         } else {
-            self.request(Method::GET, SYSTEM_BROWSE_PATH).await
+            self.request(Method::GET, SYSTEM_BROWSE).await
         }
     }
 
     pub async fn get_connections(&self) -> Fallible<system::Connections> {
-        self.request(Method::GET, SYSTEM_CONNECTIONS_PATH).await
+        self.request(Method::GET, SYSTEM_CONNECTIONS).await
     }
 
     pub async fn get_discovery_cache(&self) -> Fallible<system::Discovery> {
-        self.request(Method::GET, SYSTEM_DISCOVERY_PATH).await
+        self.request(Method::GET, SYSTEM_DISCOVERY).await
     }
 
     pub async fn get_log(&self, since: Option<Timestamp>) -> Fallible<system::Log> {
         if let Some(since) = since {
             self.request(
                 Method::GET,
-                format!("{}?since={}", SYSTEM_LOG_PATH, since.to_rfc3339()),
+                format!("{}?since={}", SYSTEM_LOG, since.to_rfc3339()),
             )
             .await
         } else {
-            self.request(Method::GET, SYSTEM_LOG_PATH).await
+            self.request(Method::GET, SYSTEM_LOG).await
         }
     }
 
     pub async fn get_errors(&self) -> Fallible<system::Error> {
-        self.request(Method::GET, SYSTEM_ERROR_PATH).await
+        self.request(Method::GET, SYSTEM_ERROR).await
     }
 
     pub async fn get_loglevels_info(&self) -> Fallible<system::LogLevelsInfo> {
-        self.request(Method::GET, SYSTEM_LOGLEVELS_PATH).await
+        self.request(Method::GET, SYSTEM_LOGLEVELS).await
     }
 
     pub async fn ping(&self) -> Fallible<system::Ping> {
-        self.request(Method::GET, SYSTEM_PING_PATH).await
+        self.request(Method::GET, SYSTEM_PING).await
     }
 
     pub async fn get_upgrade_info(&self) -> Fallible<system::UpgradeInfo> {
-        self.request(Method::GET, SYSTEM_UPGRADE_PATH).await
+        self.request(Method::GET, SYSTEM_UPGRADE).await
     }
 
     pub async fn get_version_info(&self) -> Fallible<system::VersionInfo> {
-        self.request(Method::GET, SYSTEM_VERSION_PATH).await
+        self.request(Method::GET, SYSTEM_VERSION).await
     }
 }

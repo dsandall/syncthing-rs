@@ -34,7 +34,7 @@ pub fn construct_event_url(
     limit: Option<u64>,
     events: impl AsRef<[crate::events::EventType]>,
 ) -> serde_json::Result<String> {
-    let mut path_and_query = crate::routes::EVENTS_PATH.to_owned();
+    let mut path_and_query = crate::routes::EVENTS.to_owned();
     let events = events.as_ref();
     let mut query_chars = QueryChars::default();
     if !events.is_empty() {
