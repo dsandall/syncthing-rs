@@ -1,8 +1,9 @@
 use crate::system::Entry;
 use crate::utils;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct Error {
     #[serde(deserialize_with = "utils::default_on_null")]
     pub errors: Vec<Entry>,

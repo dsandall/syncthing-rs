@@ -1,9 +1,10 @@
 use crate::DeviceID;
 use http::Uri;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct Addresses {
     #[serde(with = " http_serde_ext::uri::vec")]
     pub addresses: Vec<Uri>,

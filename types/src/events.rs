@@ -5,13 +5,15 @@ use serde_json::value::RawValue;
 use std::collections::HashMap;
 
 //FIXME: complete
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct ConfigSavedEvent {
     #[serde(rename = "Version")]
     pub version: u64,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct DeviceConnectedEvent {
     pub addr: String,
@@ -24,27 +26,31 @@ pub struct DeviceConnectedEvent {
     pub client_type: String, //FIXME: use enum
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct DeviceDisconnectedEvent {
     #[serde(rename = "id")]
     pub device_id: DeviceID,
     pub error: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct DeviceDiscoveredEvent {
     #[serde(rename = "device")]
     pub device_id: DeviceID,
     pub addrs: Vec<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct DevicePausedEvent {
     #[serde(rename = "device")]
     pub device_id: DeviceID,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct DeviceRejectedEvent {
     #[serde(rename = "device")]
     pub device_id: DeviceID,
@@ -52,19 +58,22 @@ pub struct DeviceRejectedEvent {
     pub address: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct DeviceResumedEvent {
     #[serde(rename = "device")]
     pub device_id: DeviceID,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct ClusterConfigReceivedEvent {
     #[serde(rename = "device")]
     pub device_id: DeviceID,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct FolderCompletionEvent {
     #[serde(rename = "device")]
@@ -78,19 +87,22 @@ pub struct FolderCompletionEvent {
     pub need_items: u64,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct FolderErrorsEvent {
     pub folder: String,
     pub errors: Vec<FolderError>,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct FolderError {
     pub error: String,
     pub path: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct FolderRejectedEvent {
     #[serde(rename = "device")]
     pub device_id: DeviceID,
@@ -100,7 +112,8 @@ pub struct FolderRejectedEvent {
     pub folder_label: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct FolderScanProgressEvent {
     pub total: u64,
     pub rate: u64,
@@ -109,13 +122,15 @@ pub struct FolderScanProgressEvent {
     pub folder_id: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct FolderSummaryEvent {
     pub folder: String,
     pub summary: FolderSummaryData,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct FolderSummaryData {
     pub global_bytes: u64,
@@ -147,7 +162,8 @@ pub struct FolderSummaryData {
     pub version: u64,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all(deserialize = "lowercase"))]
 pub enum ItemAction {
     Update,
@@ -155,7 +171,8 @@ pub enum ItemAction {
     Delete,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct ItemFinishedEvent {
     pub item: String,
     pub folder: String,
@@ -165,7 +182,8 @@ pub struct ItemFinishedEvent {
     pub action: ItemAction,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct ItemStartedEvent {
     pub item: String,
     pub folder: String,
@@ -174,10 +192,12 @@ pub struct ItemStartedEvent {
     pub action: ItemAction,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct ListenAddressesChangedEvent {}
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct LocalChangeDetectedEvent {
     pub action: String, //FIXME: use enum
     #[serde(rename = "folderID")]
@@ -188,7 +208,8 @@ pub struct LocalChangeDetectedEvent {
     pub item_type: String, //FIXME: use enum
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct LocalIndexUpdatedEvent {
     #[serde(rename = "folder")]
     pub folder_id: String,
@@ -197,12 +218,14 @@ pub struct LocalIndexUpdatedEvent {
     pub filenames: Vec<FileName>,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct LoginAttemptEvent {
     pub username: String,
     pub success: bool,
 }
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct RemoteChangeDetectedEvent {
     pub action: String,
     #[serde(rename = "folderID")]
@@ -215,7 +238,8 @@ pub struct RemoteChangeDetectedEvent {
     pub modified_by: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct RemoteDownloadProgressEvent {
     #[serde(rename = "device")]
     pub device_id: DeviceID,
@@ -223,7 +247,8 @@ pub struct RemoteDownloadProgressEvent {
     pub state: HashMap<FileName, u64>,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct RemoteIndexUpdatedEvent {
     #[serde(rename = "device")]
     pub device_id: DeviceID,
@@ -233,14 +258,16 @@ pub struct RemoteIndexUpdatedEvent {
     pub version: u64,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct StartingEvent {
     #[serde(rename = "myID")]
     pub device_id: DeviceID,
     pub home: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all(deserialize = "kebab-case"))]
 pub enum FolderState {
     Idle,
@@ -255,7 +282,8 @@ pub enum FolderState {
     Unknown,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct StateChangedEvent {
     #[serde(rename = "folder")]
     pub folder_id: String,
@@ -265,7 +293,8 @@ pub struct StateChangedEvent {
     pub error: Option<String>,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub enum EventData {
     ConfigSaved(ConfigSavedEvent),
     DeviceConnected(DeviceConnectedEvent),
@@ -337,7 +366,8 @@ pub enum EventType {
     StateChanged,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(try_from = "RawEvent")]
 pub struct Event {
     pub id: u64,

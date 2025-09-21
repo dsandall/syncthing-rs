@@ -16,17 +16,19 @@ pub use ping::*;
 pub use upgrade::*;
 pub use version::*;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::Timestamp;
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct Entry {
     pub when: Timestamp,
     pub message: String,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Statistics {
     pub at: Timestamp,

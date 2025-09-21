@@ -1,7 +1,8 @@
 use crate::system::Entry;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct Log {
     pub messages: Vec<Entry>,
 }

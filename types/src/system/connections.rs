@@ -1,9 +1,10 @@
 use crate::system::Statistics;
 use crate::{DeviceID, Timestamp};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TotalConnectionsStatistic {
     pub at: Timestamp,
@@ -11,7 +12,8 @@ pub struct TotalConnectionsStatistic {
     pub out_bytes_total: u64,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ConnectionInfo {
     pub address: String,
@@ -24,7 +26,8 @@ pub struct ConnectionInfo {
     pub statistics: Statistics,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ConnectionStats {
     pub connected: bool,
@@ -40,7 +43,8 @@ pub struct ConnectionStats {
     pub statistics: Statistics,
 }
 
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct Connections {
     pub total: TotalConnectionsStatistic,
     pub connections: HashMap<DeviceID, ConnectionStats>,

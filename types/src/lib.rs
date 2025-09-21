@@ -6,7 +6,7 @@ pub mod utils;
 
 use chrono::DateTime;
 use chrono::FixedOffset;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 pub static API_HEADER_KEY: &str = "X-API-Key";
@@ -24,7 +24,8 @@ type Folder = HashMap<FileName, File>;
 pub type Timestamp = DateTime<FixedOffset>;
 
 //TODO: maybe move to events if not used in system
-#[derive(Debug, Deserialize)]
+#[non_exhaustive]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct File {
     pub total: u64,
