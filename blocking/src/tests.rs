@@ -61,6 +61,13 @@ fn get_loglevels_info() -> Fallible<()> {
 }
 
 #[test]
+fn get_paths() -> Fallible<()> {
+    let client = Client::new(API_KEY);
+    dbg!(client.get_paths()?);
+    Ok(())
+}
+
+#[test]
 #[ignore]
 fn get_upgrade_info() -> Fallible<()> {
     let client = Client::new(API_KEY);

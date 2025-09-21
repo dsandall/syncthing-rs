@@ -5,6 +5,7 @@ use http::header::HeaderValue;
 use http::uri::{Authority, Parts as UriParts, PathAndQuery, Scheme, Uri};
 use http::{Method, Request};
 use serde::de::DeserializeOwned as Deserialize;
+use std::collections::HashMap;
 use syncthing_types::events::{Event, EventType};
 use syncthing_types::utils;
 use syncthing_types::{API_DEFAULT_AUTHORITY, Timestamp};
@@ -122,6 +123,10 @@ impl Client {
 
     pub fn get_loglevels_info(&self) -> Fallible<system::LogLevelsInfo> {
         self.request(Method::GET, SYSTEM_LOGLEVELS)
+    }
+
+    pub fn get_paths(&self) -> Fallible<HashMap<String, String>> {
+        self.request(Method::GET, SYSTEM_PATHS)
     }
 
     pub fn ping(&self) -> Fallible<system::Ping> {
