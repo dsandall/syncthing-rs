@@ -69,6 +69,7 @@ pub struct VersionInfo {
     pub is_candidate: bool,
     pub is_release: bool,
     pub date: Timestamp,
+    #[serde(default)]
     pub tags: Vec<String>,
     pub stamp: String,
     pub user: String,

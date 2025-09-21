@@ -39,6 +39,7 @@ pub struct DeviceDisconnectedEvent {
 pub struct DeviceDiscoveredEvent {
     #[serde(rename = "device")]
     pub device_id: DeviceID,
+    #[serde(default)]
     pub addrs: Vec<String>,
 }
 
@@ -91,6 +92,7 @@ pub struct FolderCompletionEvent {
 #[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct FolderErrorsEvent {
     pub folder: String,
+    #[serde(default)]
     pub errors: Vec<FolderError>,
 }
 
@@ -215,6 +217,7 @@ pub struct LocalIndexUpdatedEvent {
     pub folder_id: String,
     pub items: u64,
     pub version: u64,
+    #[serde(default)]
     pub filenames: Vec<FileName>,
 }
 
