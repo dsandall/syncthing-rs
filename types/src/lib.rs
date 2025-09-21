@@ -9,6 +9,10 @@ use chrono::FixedOffset;
 use serde::Deserialize;
 use std::collections::HashMap;
 
+pub static API_HEADER_KEY: &str = "X-API-Key";
+pub static API_DEFAULT_AUTHORITY: &str = "127.0.0.1:8384";
+pub static EMPTY_EVENT_SUBSCRIPTION: Vec<crate::events::EventType> = Vec::new();
+
 //TODO: ip type for address, DeviceID/FolderID type with deser
 //FIXME: check folder == folderLable inconsistency
 

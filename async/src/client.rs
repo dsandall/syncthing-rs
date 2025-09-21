@@ -5,15 +5,11 @@ use http::header::HeaderValue;
 use http::uri::{Authority, Parts as UriParts, PathAndQuery, Scheme, Uri};
 use reqwest::Client as HttpClient;
 use serde::de::DeserializeOwned as Deserialize;
-use syncthing_types::Timestamp;
 use syncthing_types::events::{Event, EventType};
-use syncthing_types::routes::*;
-use syncthing_types::system;
 use syncthing_types::utils;
-
-static API_HEADER_KEY: &str = "X-API-Key";
-static API_DEFAULT_AUTHORITY: &str = "127.0.0.1:8384";
-static EMPTY_EVENT_SUBSCRIPTION: Vec<EventType> = Vec::new();
+use syncthing_types::{API_DEFAULT_AUTHORITY, Timestamp};
+use syncthing_types::{API_HEADER_KEY, routes::*};
+use syncthing_types::{EMPTY_EVENT_SUBSCRIPTION, system};
 
 pub struct Client {
     client: HttpClient,
