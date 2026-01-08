@@ -25,7 +25,7 @@ impl Client {
         Self {
             client: HttpClient::new(),
             authority: Authority::from_static(API_DEFAULT_AUTHORITY),
-            api_key: api_key.into(),
+            api_key: api_key.into().trim_end().into(),
         }
     }
 
@@ -33,7 +33,7 @@ impl Client {
         Self {
             client: HttpClient::new(),
             authority,
-            api_key: api_key.into(),
+            api_key: api_key.into().trim_end().into(),
         }
     }
 

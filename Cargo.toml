@@ -1,9 +1,10 @@
 [workspace]
 resolver = "3"
 members = [
-    "types",
-    "async",
-    "blocking",
-    "examples/event_printer",
-    "examples/system_info",
+  "types",
+  "async",
+  "blocking",
+  "examples/event_printer",
+  "examples/system_info",
+  "examples/multi_client",
 ]
