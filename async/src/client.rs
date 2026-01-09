@@ -12,7 +12,7 @@ use syncthing_types::utils::construct_uri;
 use syncthing_types::{API_DEFAULT_AUTHORITY, Timestamp};
 use syncthing_types::{API_HEADER_KEY, routes::*};
 use syncthing_types::{EMPTY_EVENT_SUBSCRIPTION, system};
-use syncthing_types::{cluster, utils};
+use syncthing_types::{cluster, config, utils};
 
 pub struct Client {
     client: HttpClient,
@@ -49,6 +49,7 @@ impl Client {
             .send()
             .await?
             .error_for_status()?;
+
         Ok(resp.json().await?)
     }
 
@@ -155,5 +156,13 @@ impl Client {
 
     pub async fn get_cluster_pending_devices(&self) -> Fallible<cluster::PendingDevices> {
         self.get(CLUSTER_PENDING_DEVICES).await
+    }
+
+    pub async fn get_config_folders(&self) -> Fallible<Vec<config::Folder>> {
+        self.get(CONFIG_FOLDERS).await
+    }
+
+    pub async fn get_config_devices(&self) -> Fallible<Vec<config::Device>> {
+        self.get(CONFIG_DEVICES).await
     }
 }
