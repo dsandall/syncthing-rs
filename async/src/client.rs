@@ -16,7 +16,7 @@ use syncthing_types::{cluster, utils};
 
 pub struct Client {
     client: HttpClient,
-    authority: Authority,
+    pub authority: Authority,
     api_key: String,
 }
 
