@@ -49,7 +49,6 @@ impl Client {
             .send()
             .await?
             .error_for_status()?;
-
         Ok(resp.json().await?)
     }
 

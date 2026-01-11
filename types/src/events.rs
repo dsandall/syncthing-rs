@@ -8,7 +8,6 @@ use std::collections::HashMap;
 #[non_exhaustive]
 #[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct ConfigSavedEvent {
-    #[serde(rename = "version")]
     pub version: u64,
 }
 

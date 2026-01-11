@@ -1,5 +1,4 @@
-use http::uri::Authority;
-use syncthing_async::{Client, Fallible};
+use syncthing_async::{Authority, Client, Fallible};
 
 #[tokio::main]
 async fn main() -> Fallible<()> {
