@@ -11,12 +11,12 @@ use syncthing_types::utils::construct_uri;
 use syncthing_types::{API_DEFAULT_AUTHORITY, Timestamp};
 use syncthing_types::{API_HEADER_KEY, routes::*};
 use syncthing_types::{EMPTY_EVENT_SUBSCRIPTION, system};
-use syncthing_types::{cluster, utils};
+use syncthing_types::{cluster, config, utils};
 use ureq::Agent;
 
 pub struct Client {
     agent: Agent,
-    authority: Authority,
+    pub authority: Authority,
     api_key: String,
 }
 
@@ -25,7 +25,7 @@ impl Client {
         Self {
             agent: Agent::new_with_defaults(),
             authority: Authority::from_static(API_DEFAULT_AUTHORITY),
-            api_key: api_key.into(),
+            api_key: api_key.into().trim_end().into(),
         }
     }
 
@@ -33,7 +33,7 @@ impl Client {
         Ok(Self {
             agent: Agent::new_with_defaults(),
             authority,
-            api_key: api_key.into(),
+            api_key: api_key.into().trim_end().into(),
         })
     }
 
@@ -148,5 +148,13 @@ impl Client {
 
     pub fn get_cluster_pending_devices(&self) -> Fallible<cluster::PendingDevices> {
         self.get(CLUSTER_PENDING_DEVICES)
+    }
+
+    pub fn get_config_folders(&self) -> Fallible<config::Folder> {
+        self.get(CONFIG_FOLDERS)
+    }
+
+    pub fn get_config_devices(&self) -> Fallible<config::Device> {
+        self.get(CONFIG_DEVICES)
     }
 }
