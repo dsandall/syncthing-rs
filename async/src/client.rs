@@ -17,7 +17,7 @@ use syncthing_types::{cluster, config, db, utils};
 
 pub struct Client {
     client: HttpClient,
-    pub authority: Authority,
+    authority: Authority,
     api_key: String,
 }
 
@@ -26,7 +26,7 @@ impl Client {
         Self {
             client: HttpClient::new(),
             authority: Authority::from_static(API_DEFAULT_AUTHORITY),
-            api_key: api_key.into().trim_end().into(),
+            api_key: api_key.into(),
         }
     }
 
@@ -34,8 +34,12 @@ impl Client {
         Self {
             client: HttpClient::new(),
             authority,
-            api_key: api_key.into().trim_end().into(),
+            api_key: api_key.into(),
         }
+    }
+
+    pub fn authority(&self) -> &Authority {
+        &self.authority
     }
 
     pub(crate) async fn get<D: Deserialize, T: AsRef<[u8]> + 'static>(
