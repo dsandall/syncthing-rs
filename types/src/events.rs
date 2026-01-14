@@ -1,4 +1,4 @@
-use crate::{DeviceID, Timestamp};
+use crate::{DeviceID, FolderID, Timestamp};
 use crate::{FileName, Folder, FolderName};
 use serde::{Deserialize, Serialize};
 use serde_json::value::RawValue;
@@ -79,7 +79,7 @@ pub struct FolderCompletionEvent {
     #[serde(rename = "device")]
     pub device_id: DeviceID,
     #[serde(rename = "folder")]
-    pub folder_id: String,
+    pub folder_id: FolderID,
     pub completion: f64,
     pub global_bytes: u64,
     pub need_bytes: u64,

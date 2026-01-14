@@ -1,9 +1,9 @@
-use crate::DeviceID;
+use crate::{DeviceID, FolderID};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct Folder {
-    pub id: String,
+    pub id: FolderID,
     pub label: String,
     pub path: String,
     pub paused: bool,
