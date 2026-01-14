@@ -8,10 +8,10 @@ use serde::de::DeserializeOwned as Deserialize;
 use std::collections::HashMap;
 use syncthing_types::events::{Event, EventType};
 use syncthing_types::utils::construct_uri;
-use syncthing_types::{API_DEFAULT_AUTHORITY, Timestamp};
+use syncthing_types::{API_DEFAULT_AUTHORITY, FolderID, Timestamp};
 use syncthing_types::{API_HEADER_KEY, routes::*};
 use syncthing_types::{EMPTY_EVENT_SUBSCRIPTION, system};
-use syncthing_types::{cluster, config, utils};
+use syncthing_types::{cluster, config, db, utils};
 use ureq::Agent;
 
 pub struct Client {
@@ -156,5 +156,11 @@ impl Client {
 
     pub fn get_config_devices(&self) -> Fallible<config::Device> {
         self.get(CONFIG_DEVICES)
+    }
+
+    pub fn get_db_status(&self, folder_id: &FolderID) -> Fallible<db::Status> {
+        let mut string = DB_STATUS.to_string();
+        string.push_str(folder_id);
+        self.get(string)
     }
 }
