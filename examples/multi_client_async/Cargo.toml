@@ -5,6 +5,5 @@ authors = ["Dylan Sandall <dsandalledu@gmail.com>"]
 edition = "2024"
 
 [dependencies]
-http = "1.4.0"
 syncthing-async = { path = "../../async" }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }

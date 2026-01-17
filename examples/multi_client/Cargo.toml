@@ -5,5 +5,4 @@ authors = ["Dylan Sandall <dsandalledu@gmail.com>"]
 edition = "2024"
 
 [dependencies]
-http = "1.4.0"
 syncthing = { path = "../../blocking/" }

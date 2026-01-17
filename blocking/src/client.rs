@@ -16,7 +16,7 @@ use ureq::Agent;
 
 pub struct Client {
     agent: Agent,
-    pub authority: Authority,
+    authority: Authority,
     api_key: String,
 }
 
@@ -25,7 +25,7 @@ impl Client {
         Self {
             agent: Agent::new_with_defaults(),
             authority: Authority::from_static(API_DEFAULT_AUTHORITY),
-            api_key: api_key.into().trim_end().into(),
+            api_key: api_key.into(),
         }
     }
 
@@ -33,7 +33,7 @@ impl Client {
         Ok(Self {
             agent: Agent::new_with_defaults(),
             authority,
-            api_key: api_key.into().trim_end().into(),
+            api_key: api_key.into(),
         })
     }
 
